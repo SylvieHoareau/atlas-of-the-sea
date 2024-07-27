@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 import matplotlib.pyplot as plt
 import seaborn as sns
 from django.http import HttpResponse
@@ -47,13 +48,16 @@ def r_graphique_view(request):
     # Chemin du répertoir contenant les scripts
     script_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'scripts', 'script.R')
 
-    # Appeler le script R
-    subprocess.call(['Rscript', script_path])
-
-    # Lire l'image générée
+    # Chemin de l'image générée
     plot_path = os.path.join(os.path.dirname(script_path), 'plot.png')
     # with open(plot_path, 'rb') as f:
     #     image_data = f.read()
 
+     # Appeler le script R et passer par le chemin de l'image
+    subprocess.call(['Rscript', script_path, plot_path])
+
+    # Chemin relatif pour accéder à l'image via l'URL
+    plot_url = os.path.join(settings.MEDIA_URL, 'plot.png')
+
     # return HttpResponse(image_data, content_type="image/png")
-    return render(request, "data_visualization/r_graphique.html", {"plot_url": plot_path})
+    return render(request, "data_visualization/r_graphique.html", {"plot_url": plot_url})

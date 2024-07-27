@@ -15,6 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path
 from django.urls import path
 from data_visualization.views import home, graphique_view, carte_view, r_graphique_view
 
@@ -25,3 +28,6 @@ urlpatterns = [
     path("carte/", carte_view, name="carte"),
     path("r-graphique/", r_graphique_view, name="r_graphique")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
