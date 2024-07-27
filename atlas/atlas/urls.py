@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from data_visualization.views import home
+from data_visualization.views import home, graphique_view, carte_view, r_graphique_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", home, name="home")
+    path("", home, name="home"),
+    path("graphique/", graphique_view, name="graphique"),
+    path("carte/", carte_view, name="carte"),
+    path("r-graphique/", r_graphique_view, name="r_graphique")
 ]
