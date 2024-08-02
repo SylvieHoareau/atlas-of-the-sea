@@ -45,16 +45,20 @@ def carte_view(request):
         return HttpResponse(file.read())
     
 def r_graphique_view(request):
-    # Chemin du répertoir contenant les scripts
+    # Chemin du répertoire contenant les scripts
     script_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'scripts', 'script.R')
 
     # Chemin de l'image générée
-    plot_path = os.path.join(os.path.dirname(script_path), 'plot.png')
+    plot_path = os.path.join(settings.MEDIA_ROOT, 'plot.png')
     # with open(plot_path, 'rb') as f:
     #     image_data = f.read()
 
      # Appeler le script R et passer par le chemin de l'image
-    subprocess.call(['Rscript', script_path, plot_path])
+    result = subprocess.run(['Rscript', script_path, plot_path], capture_output=True, text=True)
+
+    # Afficher les messages de débogage
+    print(result.stdout)
+    print(result.stderr)
 
     # Chemin relatif pour accéder à l'image via l'URL
     plot_url = os.path.join(settings.MEDIA_URL, 'plot.png')
