@@ -19,14 +19,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from django.urls import path
-from data_visualization.views import home, graphique_view, carte_view, r_graphique_view
+from data_visualization.views import home, graphique_view, carte_view, r_graphique_view, world_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home, name="home"),
+    path("world/", world_view, name="world"),
     path("graphique/", graphique_view, name="graphique"),
     path("carte/", carte_view, name="carte"),
-    path("r-graphique/", r_graphique_view, name="r_graphique")
+    path("r-graphique/", r_graphique_view, name="r_graphique"),
 ]
 
 if settings.DEBUG:
